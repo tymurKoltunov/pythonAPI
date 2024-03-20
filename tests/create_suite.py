@@ -1,20 +1,5 @@
-import requests
-from dotenv import load_dotenv
-import os
 from dto.test_suite import TestSuiteDTO, Data, Attributes
-
-load_dotenv()
-
-
-def create_test_suite(suite_dto):
-    url = os.environ.get("URL")
-    token = os.environ.get("TOKEN")
-    headers = {
-        "Authorization": token,
-        "Content-Type": "application/json",
-    }
-    response = requests.post(url, headers=headers, json=suite_dto.dict())
-    return response
+from controllers.test_suite_controller import *
 
 
 def test_create_test_suite():
