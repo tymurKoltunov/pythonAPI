@@ -17,5 +17,6 @@ def get_jwt_token():
     content = json.loads(response.content)
     return content['jwt']
 
+
 def get_base_api_url():
     return os.environ.get("BASE_API_URL")

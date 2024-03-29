@@ -2,12 +2,12 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 
-class Attributes(BaseModel):
+class SuiteAttributes(BaseModel):
     title: str
     description: str
     emoji: Optional[str] = None
     code: Optional[str] = None
-    sync: bool
+    sync: bool = True
     file_type: Optional[str] = Field('suite', alias="file-type")
     test_count: Optional[int] = Field(0, alias="test-count")
     filtered_tests: Optional[str] = Field(None, alias="filtered-tests")
@@ -16,16 +16,16 @@ class Attributes(BaseModel):
     jira_issues: Optional[str] = Field(None, alias="jira-issues")
 
 
-class Relationships(BaseModel):
+class SuiteRelationships(BaseModel):
     pass
 
 
-class Data(BaseModel):
+class SuiteData(BaseModel):
     id: str
     type: str = "suite"
-    attributes: Attributes
-    relationships: Relationships
+    attributes: SuiteAttributes
+    relationships: SuiteRelationships
 
 
-class TestSuiteDTO(BaseModel):
-    data: Data
+class SuiteDTO(BaseModel):
+    data: SuiteData
