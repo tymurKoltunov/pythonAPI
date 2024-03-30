@@ -1,27 +1,33 @@
 import requests
-from controllers.url_controller import *
+from controllers.base_controller import *
 from utils.urls import URL
 
 
-class TestCaseController:
-    def create_test_case(self, case_dto, token):
-        response = requests.post(get_base_api_url() + URL.project_id.value + URL.tests.value,
-                                 headers={"Authorization": token},
+class TestCaseController(BaseController):
+
+    def __init__(self, project_id=BaseController.PROJECT_ID):
+        self.project_id = project_id
+
+    def get_base_api_url(self):
+        return super().get_base_api_url() + self.project_id + self.TESTS
+
+    def create_test_case(self, case_dto):
+        response = requests.post(self.get_base_api_url(),
+                                 headers={"Authorization": self.TOKEN},
                                  json=case_dto.model_dump())
         return response
 
-    def get_case_id_by_title(self, title, token):
-        response = requests.get(get_base_api_url() + URL.project_id.value + URL.suites.value,
-                                headers={"Authorization": token})
+    def get_case_id_by_title(self, title):
+        response = requests.get(self.get_base_api_url(),
+                                headers={"Authorization": self.TOKEN})
         content = json.loads(response.content)
         for case in content["data"]:
             if case["attributes"]["title"] == title:
                 return case["id"]
 
-    def delete_case_by_title(self, title, token):
-        case_id = self.get_case_id_by_title(title, token)
-        requests.delete(get_base_api_url() + URL.project_id.value + URL.tests.value + f"/{case_id}",
-                        headers={"Authorization": token})
+    def delete_case_by_title(self, title):
+        case_id = self.get_case_id_by_title(title)
+        requests.delete(self.get_base_api_url() + f"/{case_id}",
+                        headers={"Authorization": self.TOKEN})
 
 
-test_case_controller = TestCaseController()
