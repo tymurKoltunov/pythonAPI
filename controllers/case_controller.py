@@ -1,6 +1,7 @@
+import json
+
 import requests
 from controllers.base_controller import *
-from utils.urls import URL
 
 
 class TestCaseController(BaseController):

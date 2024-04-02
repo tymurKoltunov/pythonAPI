@@ -1,15 +1,12 @@
-import json
-
-import requests
 import os
 from dotenv import load_dotenv
-
-from utils.urls import URL
+from typing import TypeVar, Generic
 
 load_dotenv()
+T = TypeVar('T')
 
 
-class BaseController:
+class BaseController(Generic[T]):
     PROJECT_ID = "/api_tests"
     LOGIN = "/login"
     PROJECTS = "/projects"
